@@ -47,16 +47,6 @@ namespace MF_Excel_Processor
         /// </summary>
         public int[] typeColumns;
 
-        /// <summary>
-        /// Excel file month.
-        /// </summary>
-        public string Month;
-
-        /// <summary>
-        /// Excel file year.
-        /// </summary>
-        public string Year;
-
         public ExcelData(string fileName)
         {
             //New workbook creation.
@@ -68,19 +58,17 @@ namespace MF_Excel_Processor
                 currentSheet = (Excel._Worksheet)currentWorkbook.ActiveSheet;
 
                 //Sheet setup
-                currentSheet.Cells[1, 1] = "Codigo";
-                currentSheet.Cells[1, 2] = "Producto";
-                (currentSheet.Cells[1, 2] as Excel.Range).ColumnWidth = 45;
-                currentSheet.Cells[1, 3] = "Cantidad";
-                currentSheet.Cells[1, 4] = "Total";
-                currentSheet.Cells[1, 5] = "Precio Unitario";
-                (currentSheet.Cells[1, 5] as Excel.Range).ColumnWidth = 13;
-                currentSheet.Cells[1, 6] = "Seccion";
-                currentSheet.Cells[1, 7] = "Grupo";
-                currentSheet.Cells[1, 8] = "Categoria";
-                currentSheet.Cells[1, 9] = "Sub-Categoria";
-                currentSheet.Cells[1, 11] = "Mes";
-                currentSheet.Cells[1, 12] = "Año";
+                currentSheet.Cells[1, 1] = "Numero";
+                currentSheet.Cells[1, 2] = "Rubro Agricola";
+                (currentSheet.Cells[1, 2] as Excel.Range).ColumnWidth = 25;
+                currentSheet.Cells[1, 3] = "Superficie Cultivada";
+                (currentSheet.Cells[1, 3] as Excel.Range).ColumnWidth = 15;
+                currentSheet.Cells[1, 4] = "Cantidad de Productores";
+                (currentSheet.Cells[1, 4] as Excel.Range).ColumnWidth = 15;
+                currentSheet.Cells[1, 5] = "Departamento";
+                currentSheet.Cells[1, 6] = "CDA";
+                currentSheet.Cells[1, 7] = "Distrito";
+                currentSheet.Cells[1, 8] = "ALAT";
             }
             //Existing workbook loading.
             else
@@ -100,40 +88,40 @@ namespace MF_Excel_Processor
         /// </summary>
         /// <param name="firstDataRow">The row where data begins.</param>
         /// <param name="firstTypeRow">The row where data types begin.</param>
-        public void getColumns(int firstDataRow, int firstTypeRow)
-        {
-            int processedColumn = 0;
-            int position = 1;
-            dataColumns = new int[5];
-            while (processedColumn < 5)
-            {
-                if ((fullRange.Cells[firstDataRow, position]).Value2 != null)
-                {
-                    if (processedColumn == 0 && !Double.TryParse((fullRange.Cells[firstDataRow, position].Value2.ToString()), out double result))
-                    {
-                        throw new Exception("Error encontrando primera columna de datos.");
-                    }
-                    dataColumns[processedColumn] = position;
-                    processedColumn++;
-                }
-                position++;
-                if (position >= 100) throw new Exception("No se encontraron columnas de datos.");
-            }
+        //public void getColumns(int firstDataRow, int firstTypeRow)
+        //{
+        //    int processedColumn = 0;
+        //    int position = 1;
+        //    dataColumns = new int[5];
+        //    while (processedColumn < 5)
+        //    {
+        //        if ((fullRange.Cells[firstDataRow, position]).Value2 != null)
+        //        {
+        //            if (processedColumn == 0 && !Double.TryParse((fullRange.Cells[firstDataRow, position].Value2.ToString()), out double result))
+        //            {
+        //                throw new Exception("Error encontrando primera columna de datos.");
+        //            }
+        //            dataColumns[processedColumn] = position;
+        //            processedColumn++;
+        //        }
+        //        position++;
+        //        if (position >= 50) throw new Exception("No se encontraron columnas de datos.");
+        //    }
 
-            processedColumn = 0;
-            position = 1;
-            typeColumns = new int[4];
-            while (processedColumn < 4)
-            {
-                if ((fullRange.Cells[firstTypeRow, position]).Value2 != null)
-                {
-                    typeColumns[processedColumn] = position;
-                    processedColumn++;
-                }
-                position++;
-                if (position >= 100) throw new Exception("No se encontraron columnas de datos.");
-            }
-        }
+        //    processedColumn = 0;
+        //    position = 1;
+        //    typeColumns = new int[4];
+        //    while (processedColumn < 4)
+        //    {
+        //        if ((fullRange.Cells[firstTypeRow, position]).Value2 != null)
+        //        {
+        //            typeColumns[processedColumn] = position;
+        //            processedColumn++;
+        //        }
+        //        position++;
+        //        if (position >= 50) throw new Exception("No se encontraron columnas de categorias.");
+        //    }
+        //}
 
 
         /// <summary>
