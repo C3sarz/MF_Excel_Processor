@@ -74,10 +74,10 @@ namespace MF_Excel_Processor
             else
             {
                 excelApp = new Excel.Application();
-                excelApp.Visible = false;
                 currentWorkbook = excelApp.Workbooks.Open(fileName);
                 currentSheet = (Excel.Worksheet)currentWorkbook.Worksheets.get_Item(1);
                 fullRange = currentSheet.UsedRange;
+                excelApp.Visible = false;
             }
             dataColumnsReady = false;
             typeColumnsReady = false;

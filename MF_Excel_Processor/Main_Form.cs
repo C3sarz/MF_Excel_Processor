@@ -68,15 +68,15 @@ namespace MF_Excel_Processor
                 if (workerThreadEnabled)
                 {
                     CancelButton.Enabled = true;
-                    FilterStartButton.Enabled = false;
+                    StartButton.Enabled = false;
                     OpenFileButton.Enabled = false;
                     RowConfirmButton.Enabled = false;
                 }
                 else
                 {
                     CancelButton.Enabled = false;
-                    FilterStartButton.Enabled = true;
                     OpenFileButton.Enabled = true;
+                    StartButton.Enabled = true;
                     RowConfirmButton.Enabled = true;
                 }
             }
@@ -151,7 +151,7 @@ namespace MF_Excel_Processor
         /// </summary>
         private void Cleanup()
         {
-            FilterStartButton.Enabled = false;
+            StartButton.Enabled = false;
             try
             {
                 //Garbage collector.
@@ -202,16 +202,52 @@ namespace MF_Excel_Processor
 
                 //Input file traversing variables.
                 int currentPosition = startingRows[0];
+                int columnA = 1;
+                string typeA = input.fullRange.Cells[startingRows[1], columnA + 1].Value2;
+                string typeB = input.fullRange.Cells[startingRows[1] + 1, columnA + 1].Value2;
+                string typeC = input.fullRange.Cells[startingRows[1], columnA + 3].Value2;
+                string typeD = input.fullRange.Cells[startingRows[1] + 1, columnA + 3].Value2;
+
+                
 
                 // Iteration through cells.
                 while (nullCount < 3 && workerThreadEnabled)
                 {
+                    //If not null
+                    if (input.fullRange.Cells[currentPosition, columnA] != null && input.fullRange.Cells[currentPosition, columnA].Value2 != null)
+                    {
+                        if(input.fullRange.Cells[currentPosition, columnA].Value2 is double number)
+                        {
+                            //Copy data values;
+                            output.currentSheet.Cells[newSheetPositionY, newSheetPositionX] = number;
+                            output.currentSheet.Cells[newSheetPositionY, newSheetPositionX + 1] = input.fullRange.Cells[currentPosition, columnA + 1].Value2;
+                            output.currentSheet.Cells[newSheetPositionY, newSheetPositionX + 2] = input.fullRange.Cells[currentPosition, columnA + 2].Value2;
+                            output.currentSheet.Cells[newSheetPositionY, newSheetPositionX + 3] = input.fullRange.Cells[currentPosition, columnA + 3].Value2;
 
+                            //Copy type values.
+                            output.currentSheet.Cells[newSheetPositionY, newSheetPositionX + 4] = typeA;
+                            output.currentSheet.Cells[newSheetPositionY, newSheetPositionX + 5] = typeB;
+                            output.currentSheet.Cells[newSheetPositionY, newSheetPositionX + 6] = typeC;
+                            output.currentSheet.Cells[newSheetPositionY, newSheetPositionX + 7] = typeD;
+
+                            newSheetPositionY++;
+                        }
+                        else
+                        {
+                            //New type section hit, save values.
+                            typeA = input.fullRange.Cells[currentPosition, columnA + 1].Value2;
+                            typeB = input.fullRange.Cells[currentPosition + 1, columnA + 1].Value2;
+                            typeC = input.fullRange.Cells[currentPosition, columnA + 3].Value2;
+                            typeD = input.fullRange.Cells[currentPosition + 1, columnA + 3].Value2;
+                            currentPosition += 2;
+                        }
+                    }
+                    else nullCount++;
                     currentPosition++;
                     count++;
 
                     //Used to report progress.
-                    if (count > 100)
+                    if (count > 5)
                     {
                         backgroundWorker2.ReportProgress(100 * currentPosition / maxRows);
                         count = 0;
@@ -257,7 +293,7 @@ namespace MF_Excel_Processor
         {
             if(state == State.Working)
             {
-
+                startProcessing(1, 3);
             }
             workerThreadEnabled = false;
         }
@@ -282,9 +318,8 @@ namespace MF_Excel_Processor
             if (state == State.LoadingFile)
             {
                 IsFileLoaded = true;
-                AppLoadingImage.Visible = false;
+                StartButton.Enabled = true;
                 RowConfirmButton.Enabled = true;
-                FilterStartButton.Enabled = true;
                 OpenFileButton.Enabled = true;
                 state = State.Idle;
             }
@@ -297,7 +332,6 @@ namespace MF_Excel_Processor
                 if (activeThreads < 1)
                 {
                     WorkerThreadEnabled = false;
-                    LoadingImage.Visible = false;
                     input.dataColumnsReady = false;
                     input.typeColumnsReady = false;
 
@@ -343,7 +377,6 @@ namespace MF_Excel_Processor
                     fileName = openDialog.FileName;
                     OpenFileButton.Enabled = false;
                     DataTextBox.Text = "Archivo cargado: \n\n" + openDialog.FileName;
-                    AppLoadingImage.Visible = true;
                     backgroundWorker1.RunWorkerAsync();
                 }
             }
@@ -372,7 +405,6 @@ namespace MF_Excel_Processor
         {
             try
             {
-                input.getColumns(Int32.Parse(RowBox1.Text), Int32.Parse(RowBox2.Text));
                 startingRows = new int[2];
                 startingRows[0] = Int32.Parse(RowBox1.Text);
                 startingRows[1] = Int32.Parse(RowBox2.Text);
@@ -400,6 +432,27 @@ namespace MF_Excel_Processor
         private void CancelButton_Click(object sender, EventArgs e)
         {
             WorkerThreadEnabled = false;
+        }
+
+        /// <summary>
+        /// Start button event handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StartButton_Click(object sender, EventArgs e)
+        {
+            if (input.dataColumnsReady && input.typeColumnsReady)
+            {
+                state = State.Working;
+                //Create new instance.
+                output = new ExcelData(null);
+                output.excelApp.Visible = false;
+
+                timer.Start();
+                activeThreads = 1;
+                workerThreadEnabled = true;
+                backgroundWorker2.RunWorkerAsync();
+            }
         }
     }
 }

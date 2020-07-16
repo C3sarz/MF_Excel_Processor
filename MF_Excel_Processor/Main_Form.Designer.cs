@@ -36,6 +36,7 @@
             this.RowBox1 = new System.Windows.Forms.TextBox();
             this.RowBox2 = new System.Windows.Forms.TextBox();
             this.CancelButton = new System.Windows.Forms.Button();
+            this.StartButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // OpenFileButton
@@ -122,11 +123,23 @@
             this.CancelButton.UseVisualStyleBackColor = true;
             this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
+            // StartButton
+            // 
+            this.StartButton.Location = new System.Drawing.Point(280, 345);
+            this.StartButton.Margin = new System.Windows.Forms.Padding(4);
+            this.StartButton.Name = "StartButton";
+            this.StartButton.Size = new System.Drawing.Size(189, 64);
+            this.StartButton.TabIndex = 27;
+            this.StartButton.Text = "Start";
+            this.StartButton.UseVisualStyleBackColor = true;
+            this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
+            // 
             // Main_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1067, 554);
+            this.Controls.Add(this.StartButton);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.RowBox2);
             this.Controls.Add(this.RowBox1);
@@ -153,6 +166,7 @@
         private System.Windows.Forms.TextBox RowBox1;
         private System.Windows.Forms.TextBox RowBox2;
         private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button StartButton;
     }
 }
 
