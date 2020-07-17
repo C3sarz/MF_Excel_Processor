@@ -281,6 +281,7 @@ namespace MF_Excel_Processor
             if (state == State.LoadingFile)
             {
                 input = new ExcelData(fileName);
+                IsFileLoaded = true;
             }
         }
 
@@ -444,6 +445,7 @@ namespace MF_Excel_Processor
             if (input.dataColumnsReady && input.typeColumnsReady)
             {
                 state = State.Working;
+                StartButton.Enabled = false;
                 //Create new instance.
                 output = new ExcelData(null);
                 output.excelApp.Visible = false;

@@ -100,7 +100,7 @@
             this.RowBox1.Name = "RowBox1";
             this.RowBox1.Size = new System.Drawing.Size(87, 22);
             this.RowBox1.TabIndex = 13;
-            this.RowBox1.Text = "9";
+            this.RowBox1.Text = "12";
             // 
             // RowBox2
             // 
@@ -109,7 +109,7 @@
             this.RowBox2.Name = "RowBox2";
             this.RowBox2.Size = new System.Drawing.Size(87, 22);
             this.RowBox2.TabIndex = 19;
-            this.RowBox2.Text = "5";
+            this.RowBox2.Text = "9";
             // 
             // CancelButton
             // 
