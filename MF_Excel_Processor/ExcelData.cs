@@ -4,9 +4,17 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace MF_Excel_Processor
 {
+    /// <summary>
+    /// Keeps track of what format the input file has.
+    /// </summary>
+    public enum InputType
+    {
+        Agricola,
+        Pecuario
+    }
+
     public class ExcelData
     {
-
         /// <summary>
         /// Checks if data columns have been aquired.
         /// </summary>
@@ -47,7 +55,7 @@ namespace MF_Excel_Processor
         /// </summary>
         public int[] typeColumns;
 
-        public ExcelData(string fileName)
+        public ExcelData(string fileName, InputType type)
         {
             //New workbook creation.
             if (fileName is null)
@@ -58,17 +66,37 @@ namespace MF_Excel_Processor
                 currentSheet = (Excel._Worksheet)currentWorkbook.ActiveSheet;
 
                 //Sheet setup
-                currentSheet.Cells[1, 1] = "Numero";
-                currentSheet.Cells[1, 2] = "Rubro Agricola";
-                (currentSheet.Cells[1, 2] as Excel.Range).ColumnWidth = 25;
-                currentSheet.Cells[1, 3] = "Superficie Cultivada";
-                (currentSheet.Cells[1, 3] as Excel.Range).ColumnWidth = 15;
-                currentSheet.Cells[1, 4] = "Cantidad de Productores";
-                (currentSheet.Cells[1, 4] as Excel.Range).ColumnWidth = 15;
-                currentSheet.Cells[1, 5] = "Departamento";
-                currentSheet.Cells[1, 6] = "CDA";
-                currentSheet.Cells[1, 7] = "Distrito";
-                currentSheet.Cells[1, 8] = "ALAT";
+                switch (type)
+                {
+                    case InputType.Agricola:
+                        currentSheet.Cells[1, 1] = "Numero";
+                        currentSheet.Cells[1, 2] = "Rubro Agricola";
+                        (currentSheet.Cells[1, 2] as Excel.Range).ColumnWidth = 25;
+                        currentSheet.Cells[1, 3] = "Superficie Cultivada";
+                        (currentSheet.Cells[1, 3] as Excel.Range).ColumnWidth = 15;
+                        currentSheet.Cells[1, 4] = "Cantidad de Productores";
+                        (currentSheet.Cells[1, 4] as Excel.Range).ColumnWidth = 15;
+                        currentSheet.Cells[1, 5] = "Departamento";
+                        currentSheet.Cells[1, 6] = "CDA";
+                        currentSheet.Cells[1, 7] = "Distrito";
+                        currentSheet.Cells[1, 8] = "ALAT";
+                        break;
+
+                    case InputType.Pecuario:
+                        currentSheet.Cells[1, 1] = "Numero";
+                        currentSheet.Cells[1, 2] = "Rubro Pecuario";
+                        (currentSheet.Cells[1, 2] as Excel.Range).ColumnWidth = 25;
+                        currentSheet.Cells[1, 3] = "Consumo";
+                        (currentSheet.Cells[1, 3] as Excel.Range).ColumnWidth = 15;
+                        currentSheet.Cells[1, 4] = "Cantidad para Renta";
+                        (currentSheet.Cells[1, 4] as Excel.Range).ColumnWidth = 15;
+                        currentSheet.Cells[1, 5] = "Productores";
+                        currentSheet.Cells[1, 6] = "Departamento";
+                        currentSheet.Cells[1, 7] = "CDA";
+                        currentSheet.Cells[1, 8] = "Distrito";
+                        currentSheet.Cells[1, 9] = "ALAT";
+                        break;
+                }
             }
             //Existing workbook loading.
             else

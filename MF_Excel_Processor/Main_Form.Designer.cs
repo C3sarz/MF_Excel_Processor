@@ -37,14 +37,14 @@
             this.RowBox2 = new System.Windows.Forms.TextBox();
             this.CancelButton = new System.Windows.Forms.Button();
             this.StartButton = new System.Windows.Forms.Button();
+            this.SelectionBox = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // OpenFileButton
             // 
-            this.OpenFileButton.Location = new System.Drawing.Point(84, 146);
-            this.OpenFileButton.Margin = new System.Windows.Forms.Padding(4);
+            this.OpenFileButton.Location = new System.Drawing.Point(63, 119);
             this.OpenFileButton.Name = "OpenFileButton";
-            this.OpenFileButton.Size = new System.Drawing.Size(189, 64);
+            this.OpenFileButton.Size = new System.Drawing.Size(142, 52);
             this.OpenFileButton.TabIndex = 0;
             this.OpenFileButton.Text = "Abrir archivo";
             this.OpenFileButton.UseVisualStyleBackColor = true;
@@ -52,30 +52,27 @@
             // 
             // MainTextBox
             // 
-            this.MainTextBox.Location = new System.Drawing.Point(281, 146);
-            this.MainTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.MainTextBox.Location = new System.Drawing.Point(211, 119);
             this.MainTextBox.Multiline = true;
             this.MainTextBox.Name = "MainTextBox";
             this.MainTextBox.ReadOnly = true;
-            this.MainTextBox.Size = new System.Drawing.Size(188, 50);
+            this.MainTextBox.Size = new System.Drawing.Size(142, 41);
             this.MainTextBox.TabIndex = 1;
             // 
             // DataTextBox
             // 
-            this.DataTextBox.Location = new System.Drawing.Point(84, 27);
-            this.DataTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.DataTextBox.Location = new System.Drawing.Point(63, 22);
             this.DataTextBox.Multiline = true;
             this.DataTextBox.Name = "DataTextBox";
             this.DataTextBox.ReadOnly = true;
-            this.DataTextBox.Size = new System.Drawing.Size(268, 94);
+            this.DataTextBox.Size = new System.Drawing.Size(202, 77);
             this.DataTextBox.TabIndex = 2;
             // 
             // CleanupButton
             // 
-            this.CleanupButton.Location = new System.Drawing.Point(84, 218);
-            this.CleanupButton.Margin = new System.Windows.Forms.Padding(4);
+            this.CleanupButton.Location = new System.Drawing.Point(63, 177);
             this.CleanupButton.Name = "CleanupButton";
-            this.CleanupButton.Size = new System.Drawing.Size(189, 64);
+            this.CleanupButton.Size = new System.Drawing.Size(142, 52);
             this.CleanupButton.TabIndex = 4;
             this.CleanupButton.Text = "Cerrar Excel Cargado";
             this.CleanupButton.UseVisualStyleBackColor = true;
@@ -84,10 +81,9 @@
             // RowConfirmButton
             // 
             this.RowConfirmButton.Enabled = false;
-            this.RowConfirmButton.Location = new System.Drawing.Point(187, 433);
-            this.RowConfirmButton.Margin = new System.Windows.Forms.Padding(4);
+            this.RowConfirmButton.Location = new System.Drawing.Point(140, 352);
             this.RowConfirmButton.Name = "RowConfirmButton";
-            this.RowConfirmButton.Size = new System.Drawing.Size(165, 64);
+            this.RowConfirmButton.Size = new System.Drawing.Size(124, 52);
             this.RowConfirmButton.TabIndex = 12;
             this.RowConfirmButton.Text = "Confirmar filas (categoria,datos)";
             this.RowConfirmButton.UseVisualStyleBackColor = true;
@@ -95,29 +91,26 @@
             // 
             // RowBox1
             // 
-            this.RowBox1.Location = new System.Drawing.Point(360, 475);
-            this.RowBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.RowBox1.Location = new System.Drawing.Point(270, 386);
             this.RowBox1.Name = "RowBox1";
-            this.RowBox1.Size = new System.Drawing.Size(87, 22);
+            this.RowBox1.Size = new System.Drawing.Size(66, 20);
             this.RowBox1.TabIndex = 13;
             this.RowBox1.Text = "9";
             // 
             // RowBox2
             // 
-            this.RowBox2.Location = new System.Drawing.Point(360, 446);
-            this.RowBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.RowBox2.Location = new System.Drawing.Point(270, 362);
             this.RowBox2.Name = "RowBox2";
-            this.RowBox2.Size = new System.Drawing.Size(87, 22);
+            this.RowBox2.Size = new System.Drawing.Size(66, 20);
             this.RowBox2.TabIndex = 19;
             this.RowBox2.Text = "5";
             // 
             // CancelButton
             // 
             this.CancelButton.Enabled = false;
-            this.CancelButton.Location = new System.Drawing.Point(84, 345);
-            this.CancelButton.Margin = new System.Windows.Forms.Padding(4);
+            this.CancelButton.Location = new System.Drawing.Point(63, 280);
             this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(189, 64);
+            this.CancelButton.Size = new System.Drawing.Size(142, 52);
             this.CancelButton.TabIndex = 26;
             this.CancelButton.Text = "Cancelar";
             this.CancelButton.UseVisualStyleBackColor = true;
@@ -125,20 +118,28 @@
             // 
             // StartButton
             // 
-            this.StartButton.Location = new System.Drawing.Point(280, 345);
-            this.StartButton.Margin = new System.Windows.Forms.Padding(4);
+            this.StartButton.Location = new System.Drawing.Point(210, 280);
             this.StartButton.Name = "StartButton";
-            this.StartButton.Size = new System.Drawing.Size(189, 64);
+            this.StartButton.Size = new System.Drawing.Size(142, 52);
             this.StartButton.TabIndex = 27;
             this.StartButton.Text = "Start";
             this.StartButton.UseVisualStyleBackColor = true;
             this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
             // 
+            // SelectionBox
+            // 
+            this.SelectionBox.FormattingEnabled = true;
+            this.SelectionBox.Location = new System.Drawing.Point(464, 119);
+            this.SelectionBox.Name = "SelectionBox";
+            this.SelectionBox.Size = new System.Drawing.Size(120, 95);
+            this.SelectionBox.TabIndex = 28;
+            // 
             // Main_Form
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1067, 554);
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.SelectionBox);
             this.Controls.Add(this.StartButton);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.RowBox2);
@@ -148,7 +149,6 @@
             this.Controls.Add(this.DataTextBox);
             this.Controls.Add(this.MainTextBox);
             this.Controls.Add(this.OpenFileButton);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Main_Form";
             this.Text = " ";
             this.ResumeLayout(false);
@@ -167,6 +167,7 @@
         private System.Windows.Forms.TextBox RowBox2;
         private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Button StartButton;
+        private System.Windows.Forms.ListBox SelectionBox;
     }
 }
 
