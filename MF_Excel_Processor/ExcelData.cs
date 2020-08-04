@@ -105,7 +105,7 @@ namespace MF_Excel_Processor
                 currentWorkbook = excelApp.Workbooks.Open(fileName);
                 currentSheet = (Excel.Worksheet)currentWorkbook.Worksheets.get_Item(1);
                 fullRange = currentSheet.UsedRange;
-                excelApp.Visible = false;
+                excelApp.Visible = true;
             }
             dataColumnsReady = false;
             typeColumnsReady = false;
