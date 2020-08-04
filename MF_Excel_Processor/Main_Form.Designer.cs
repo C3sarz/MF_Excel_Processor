@@ -129,9 +129,9 @@
             // SelectionBox
             // 
             this.SelectionBox.FormattingEnabled = true;
-            this.SelectionBox.Location = new System.Drawing.Point(464, 119);
+            this.SelectionBox.Location = new System.Drawing.Point(211, 166);
             this.SelectionBox.Name = "SelectionBox";
-            this.SelectionBox.Size = new System.Drawing.Size(120, 95);
+            this.SelectionBox.Size = new System.Drawing.Size(142, 56);
             this.SelectionBox.TabIndex = 28;
             // 
             // Main_Form

@@ -86,11 +86,12 @@ namespace MF_Excel_Processor
                         currentSheet.Cells[1, 1] = "Numero";
                         currentSheet.Cells[1, 2] = "Rubro Pecuario";
                         (currentSheet.Cells[1, 2] as Excel.Range).ColumnWidth = 25;
-                        currentSheet.Cells[1, 3] = "Consumo";
-                        (currentSheet.Cells[1, 3] as Excel.Range).ColumnWidth = 15;
+                        currentSheet.Cells[1, 3] = "Cantidad para Consumo";
+                        (currentSheet.Cells[1, 3] as Excel.Range).ColumnWidth = 25;
                         currentSheet.Cells[1, 4] = "Cantidad para Renta";
-                        (currentSheet.Cells[1, 4] as Excel.Range).ColumnWidth = 15;
-                        currentSheet.Cells[1, 5] = "Productores";
+                        (currentSheet.Cells[1, 4] as Excel.Range).ColumnWidth = 25;
+                        currentSheet.Cells[1, 5] = "Cantidad de Productores";
+                        (currentSheet.Cells[1, 5] as Excel.Range).ColumnWidth = 25;
                         currentSheet.Cells[1, 6] = "Departamento";
                         currentSheet.Cells[1, 7] = "CDA";
                         currentSheet.Cells[1, 8] = "Distrito";
@@ -102,9 +103,11 @@ namespace MF_Excel_Processor
             else
             {
                 excelApp = new Excel.Application();
+                excelApp.DisplayAlerts = false;
                 currentWorkbook = excelApp.Workbooks.Open(fileName);
                 currentSheet = (Excel.Worksheet)currentWorkbook.Worksheets.get_Item(1);
                 fullRange = currentSheet.UsedRange;
+  
                 excelApp.Visible = false;
             }
             dataColumnsReady = false;
