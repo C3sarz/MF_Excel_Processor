@@ -136,7 +136,9 @@ namespace MF_Excel_Processor
             InitializeComponent();
 
             //Fill up SelectionBox
-            SelectionBox.Items = Enum.GetNames(InputType temp);
+            SelectionBox.Items.AddRange(Enum.GetNames(typeof(InputType)));
+            type = InputType.Agricola;
+            SelectionBox.SelectedItem = type.ToString();
 
             //Event Handlers
             this.FormClosing += new FormClosingEventHandler(Closing);
@@ -215,55 +217,75 @@ namespace MF_Excel_Processor
                     int count = 0;
 
                     //Input file traversing variables.
-                    int currentPosition = startingRows[0];
+                    int currentRow = startingRows[0];
                     int columnA = 1;
+                    int currentColumn = newSheetPositionX;
                     string typeA = input.fullRange.Cells[startingRows[1], columnA + 1].Value2;
                     string typeB = input.fullRange.Cells[startingRows[1] + 1, columnA + 1].Value2;
                     string typeC = input.fullRange.Cells[startingRows[1], columnA + 3].Value2;
                     string typeD = input.fullRange.Cells[startingRows[1] + 1, columnA + 3].Value2;
 
+                    //Enum dependent column setup
+                    int maxColumn;
+                    switch (type)
+                    {
+                        case InputType.Agricola:
+                            maxColumn = newSheetPositionX + 4;
+                            break;
+                        case InputType.Pecuario:
+                            maxColumn = newSheetPositionX + 5;
+                            break;
+                        default:
+                            throw new Exception("Invalid Input type");
+                            break;
+                    }
 
 
                     // Iteration through cells.
                     while (nullCount < 3 && workerThreadEnabled)
                     {
                         //If not null
-                        if (input.fullRange.Cells[currentPosition, columnA] != null && input.fullRange.Cells[currentPosition, columnA].Value2 != null)
+                        if (input.fullRange.Cells[currentRow, columnA] != null && input.fullRange.Cells[currentRow, columnA].Value2 != null)
                         {
-                            if (input.fullRange.Cells[currentPosition, columnA].Value2 is double number)
+                            if (input.fullRange.Cells[currentRow, columnA].Value2 is double number)
                             {
                                 //Copy data values;
-                                output.currentSheet.Cells[newSheetPositionY, newSheetPositionX] = number;
-                                output.currentSheet.Cells[newSheetPositionY, newSheetPositionX + 1] = input.fullRange.Cells[currentPosition, columnA + 1].Value2;
-                                output.currentSheet.Cells[newSheetPositionY, newSheetPositionX + 2] = input.fullRange.Cells[currentPosition, columnA + 2].Value2;
-                                output.currentSheet.Cells[newSheetPositionY, newSheetPositionX + 3] = input.fullRange.Cells[currentPosition, columnA + 3].Value2;
+                                output.currentSheet.Cells[newSheetPositionY, currentColumn++] = number;
+                                int i = 1;
+                                while(currentColumn < maxColumn) 
+                                {
+                                    output.currentSheet.Cells[newSheetPositionY, currentColumn] = input.fullRange.Cells[currentRow, columnA + i].Value2;
+                                    i++;
+                                    currentColumn++;
+                                }
 
                                 //Copy type values.
-                                output.currentSheet.Cells[newSheetPositionY, newSheetPositionX + 4] = typeA;
-                                output.currentSheet.Cells[newSheetPositionY, newSheetPositionX + 5] = typeB;
-                                output.currentSheet.Cells[newSheetPositionY, newSheetPositionX + 6] = typeC;
-                                output.currentSheet.Cells[newSheetPositionY, newSheetPositionX + 7] = typeD;
+                                output.currentSheet.Cells[newSheetPositionY, currentColumn++] = typeA;
+                                output.currentSheet.Cells[newSheetPositionY, currentColumn++] = typeB;
+                                output.currentSheet.Cells[newSheetPositionY, currentColumn++] = typeC;
+                                output.currentSheet.Cells[newSheetPositionY, currentColumn++] = typeD;
+                                currentColumn = newSheetPositionX;
 
                                 newSheetPositionY++;
                             }
                             else
                             {
                                 //New type section hit, save values.
-                                typeA = input.fullRange.Cells[currentPosition, columnA + 1].Value2;
-                                typeB = input.fullRange.Cells[currentPosition + 1, columnA + 1].Value2;
-                                typeC = input.fullRange.Cells[currentPosition, columnA + 3].Value2;
-                                typeD = input.fullRange.Cells[currentPosition + 1, columnA + 3].Value2;
-                                currentPosition += 2;
+                                typeA = input.fullRange.Cells[currentRow, columnA + 1].Value2;
+                                typeB = input.fullRange.Cells[currentRow + 1, columnA + 1].Value2;
+                                typeC = input.fullRange.Cells[currentRow, columnA + 3].Value2;
+                                typeD = input.fullRange.Cells[currentRow + 1, columnA + 3].Value2;
+                                currentRow += 2;
                             }
                         }
                         else nullCount++;
-                        currentPosition++;
+                        currentRow++;
                         count++;
 
                         //Used to report progress.
                         if (count > 5)
                         {
-                            backgroundWorker2.ReportProgress(100 * currentPosition / maxRows);
+                            backgroundWorker2.ReportProgress(100 * currentRow / maxRows);
                             count = 0;
                         }
                     }
@@ -295,10 +317,10 @@ namespace MF_Excel_Processor
         {
             if (state == State.LoadingFile)
             {
-                inputFiles = new ExcelData[fileNames.Length - 1];
+                inputFiles = new ExcelData[fileNames.Length];
                 for (int i = 0; i < fileNames.Length; i++)
                 {
-                    inputFiles[i] = new ExcelData(fileNames[i]);
+                    inputFiles[i] = new ExcelData(fileNames[i],type);
                 }
             }
         }
@@ -397,6 +419,7 @@ namespace MF_Excel_Processor
                     fileNames = openDialog.FileNames;
                     OpenFileButton.Enabled = false;
                     DataTextBox.Text = "Archivos cargados: \n\n" + openDialog.FileNames.Length;
+                    type = (InputType)Enum.Parse(typeof(InputType), SelectionBox.SelectedItem.ToString());
                     backgroundWorker1.RunWorkerAsync();
                 }
             }
@@ -464,7 +487,7 @@ namespace MF_Excel_Processor
             {
                 state = State.Working;
                 //Create new instance.
-                output = new ExcelData(null);
+                output = new ExcelData(null,type);
                 output.excelApp.Visible = false;
 
                 timer.Start();
