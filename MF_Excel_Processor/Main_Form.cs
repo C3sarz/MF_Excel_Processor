@@ -165,20 +165,25 @@ namespace MF_Excel_Processor
             StartButton.Enabled = false;
             try
             {
-                //Garbage collector.
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
 
                 //Original file cleanup
                 foreach (ExcelData input in inputFiles)
                 {
+                    //Garbage collector.
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
                     Marshal.ReleaseComObject(input.fullRange);
                     Marshal.ReleaseComObject(input.currentSheet);
                     input.currentWorkbook.Close();
                     Marshal.ReleaseComObject(input.currentWorkbook);
+                    Marshal.ReleaseComObject(input.excelApp);
                 }
                 DataTextBox.Clear();
                 IsFileLoaded = false;
+
+                //Garbage collector.
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
             }
             catch (Exception ex)
             {
@@ -193,7 +198,10 @@ namespace MF_Excel_Processor
         /// <param name="e"></param>
         private void Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (IsFileLoaded) Cleanup();
+            if (IsFileLoaded)
+            {
+                Cleanup();
+            }
         }
 
         ///////////////////////////////////////////////
